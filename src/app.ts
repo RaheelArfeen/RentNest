@@ -3,6 +3,7 @@ import express, { Application, Request, Response } from "express";
 import errorHandler from "./middlewares/errorHandler";
 import notFound from "./middlewares/notFound";
 import authRoutes from "./modules/auth/auth.routes";
+import categoryRoutes from "./modules/category/category.routes";
 
 const app: Application = express();
 
@@ -10,6 +11,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
+app.use("/api/categories", categoryRoutes);
 
 app.get("/health", (req: Request, res: Response) => {
   res.status(200).json({
