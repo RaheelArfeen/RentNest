@@ -1,7 +1,9 @@
 import cors from "cors";
 import express, { Application, Request, Response } from "express";
+import helmet from "helmet";
 import errorHandler from "./middlewares/errorHandler";
 import notFound from "./middlewares/notFound";
+import { apiLimiter, authLimiter } from "./middlewares/rateLimiter";
 import authRoutes from "./modules/auth/auth.routes";
 import categoryRoutes from "./modules/category/category.routes";
 import {
@@ -18,10 +20,12 @@ import adminRoutes from "./modules/admin/admin.routes";
 
 const app: Application = express();
 
+app.use(helmet());
 app.use(cors());
 app.use(express.json());
+app.use("/api", apiLimiter);
 
-app.use("/api/auth", authRoutes);
+app.use("/api/auth", authLimiter, authRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/properties", publicPropertyRoutes);
 app.use("/api/landlord/properties", landlordPropertyRoutes);
