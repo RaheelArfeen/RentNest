@@ -37,6 +37,14 @@ app.use("/api/payments", paymentRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/admin", adminRoutes);
 
+app.get("/", (req: Request, res: Response) => {
+  res.status(200).json({
+    success: true,
+    message: "RentNest API is successfully running 🏠",
+    errorDetails: null,
+  });
+});
+
 app.get("/health", (req: Request, res: Response) => {
   res.status(200).json({
     success: true,
