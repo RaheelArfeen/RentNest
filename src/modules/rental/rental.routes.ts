@@ -26,6 +26,11 @@ landlordRentalRoutes.get(
   rentalController.getForLandlord
 );
 landlordRentalRoutes.patch(
+  "/:id/complete",
+  auth("LANDLORD"),
+  rentalController.complete
+);
+landlordRentalRoutes.patch(
   "/:id",
   auth("LANDLORD"),
   validateRequest(updateRentalStatusSchema),

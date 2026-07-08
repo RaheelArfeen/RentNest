@@ -77,6 +77,26 @@ export const getForLandlord = async (
   }
 };
 
+export const complete = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const request = await rentalService.completeRental(
+      req.params.id as string,
+      req.user!.id
+    );
+    res.status(200).json({
+      success: true,
+      message: "Rental marked as completed successfully",
+      data: request,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const updateStatus = async (
   req: Request,
   res: Response,
