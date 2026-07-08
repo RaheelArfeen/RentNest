@@ -7,6 +7,8 @@ import { updateUserStatusSchema } from "./admin.validation";
 const router = Router();
 
 router.get("/users", auth("ADMIN"), adminController.getUsers);
+router.get("/properties", auth("ADMIN"), adminController.getProperties);
+router.get("/rentals", auth("ADMIN"), adminController.getRentals);
 router.patch(
   "/users/:id",
   auth("ADMIN"),

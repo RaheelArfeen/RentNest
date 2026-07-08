@@ -23,6 +23,42 @@ export const getUsers = async (
   }
 };
 
+export const getProperties = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const properties = await adminService.getAllProperties();
+    res.status(200).json({
+      success: true,
+      message: "Properties fetched successfully",
+      data: properties,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getRentals = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const rentals = await adminService.getAllRentalRequests({
+      status: req.query.status as string | undefined,
+    });
+    res.status(200).json({
+      success: true,
+      message: "Rental requests fetched successfully",
+      data: rentals,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const updateUserStatus = async (
   req: Request,
   res: Response,

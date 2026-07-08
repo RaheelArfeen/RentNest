@@ -1,4 +1,9 @@
-import { Prisma, Role, UserStatus } from "../../generated/prisma/client";
+import {
+  Prisma,
+  RentalStatus,
+  Role,
+  UserStatus,
+} from "../../generated/prisma/client";
 import prisma from "../../lib/prisma";
 import AppError from "../../utils/AppError";
 
@@ -28,6 +33,50 @@ export const getAllUsers = async (filters: {
   return prisma.user.findMany({
     where,
     select: userSelect,
+    orderBy: { createdAt: "desc" },
+  });
+};
+
+export const getAllProperties = async () => {
+  return prisma.property.findMany({
+    include: {
+      category: true,
+      landlord: { select: { id: true, name: true, email: true, status: true } },
+      _count: { select: { rentalRequests: true, reviews: true } },
+    },
+    orderBy: { createdAt: "desc" },
+  });
+};
+
+export const getAllRentalRequests = async (filters: {
+  status?: string | undefined;
+}) => {
+  const where: Prisma.RentalRequestWhereInput = {};
+
+  if (filters.status) {
+    const validStatuses = [
+      "PENDING",
+      "APPROVED",
+      "REJECTED",
+      "ACTIVE",
+      "COMPLETED",
+    ];
+    if (!validStatuses.includes(filters.status)) {
+      throw new AppError(
+        400,
+        `Invalid status filter. Allowed: ${validStatuses.join(", ")}`
+      );
+    }
+    where.status = filters.status as RentalStatus;
+  }
+
+  return prisma.rentalRequest.findMany({
+    where,
+    include: {
+      property: { select: { id: true, title: true, location: true } },
+      tenant: { select: { id: true, name: true, email: true } },
+      payment: true,
+    },
     orderBy: { createdAt: "desc" },
   });
 };
