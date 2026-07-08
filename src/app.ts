@@ -13,6 +13,7 @@ import {
   rentalRoutes,
 } from "./modules/rental/rental.routes";
 import paymentRoutes from "./modules/payment/payment.routes";
+import reviewRoutes from "./modules/review/review.routes";
 
 const app: Application = express();
 
@@ -26,6 +27,7 @@ app.use("/api/landlord/properties", landlordPropertyRoutes);
 app.use("/api/landlord/requests", landlordRentalRoutes);
 app.use("/api/rentals", rentalRoutes);
 app.use("/api/payments", paymentRoutes);
+app.use("/api/reviews", reviewRoutes);
 
 app.get("/health", (req: Request, res: Response) => {
   res.status(200).json({
