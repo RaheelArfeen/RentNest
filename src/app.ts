@@ -4,6 +4,7 @@ import helmet from "helmet";
 import errorHandler from "./middlewares/errorHandler";
 import notFound from "./middlewares/notFound";
 import { apiLimiter, authLimiter } from "./middlewares/rateLimiter";
+import requestLogger from "./middlewares/requestLogger";
 import authRoutes from "./modules/auth/auth.routes";
 import categoryRoutes from "./modules/category/category.routes";
 import {
@@ -23,6 +24,7 @@ const app: Application = express();
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
+app.use(requestLogger);
 app.use("/api", apiLimiter);
 
 app.use("/api/auth", authLimiter, authRoutes);
