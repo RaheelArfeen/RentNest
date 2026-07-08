@@ -8,6 +8,10 @@ import {
   landlordPropertyRoutes,
   publicPropertyRoutes,
 } from "./modules/property/property.routes";
+import {
+  landlordRentalRoutes,
+  rentalRoutes,
+} from "./modules/rental/rental.routes";
 
 const app: Application = express();
 
@@ -18,6 +22,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/properties", publicPropertyRoutes);
 app.use("/api/landlord/properties", landlordPropertyRoutes);
+app.use("/api/landlord/requests", landlordRentalRoutes);
+app.use("/api/rentals", rentalRoutes);
 
 app.get("/health", (req: Request, res: Response) => {
   res.status(200).json({
